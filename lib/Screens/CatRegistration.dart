@@ -3,7 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:fabrica_software_dasafio/models/CatModel.dart';
 
 class CatRegistration extends StatefulWidget{
-  const CatRegistration({super.key});
+
+  final CatModel? cat;
+
+  const CatRegistration({super.key, this.cat});
 
   @override
   State<StatefulWidget> createState(){
@@ -20,6 +23,19 @@ class CatRegistrationState extends State<CatRegistration>{
   final TextEditingController _weightController = TextEditingController();
 
   final dbHelper = DatabaseHelper();
+
+  @override
+  void initState(){
+    super.initState();
+
+    if(widget.cat !=null){
+      _nameController.text = widget.cat!.name;
+      _ageController.text = widget.cat!.age.toString();
+      _colorController.text = widget.cat!.color;
+      _breedController.text = widget.cat!.breed;
+      _weightController.text = widget.cat!.weight.toString();
+    }
+  }
 
   void _clearAllFields(){
     _nameController.clear();
@@ -50,9 +66,19 @@ class CatRegistrationState extends State<CatRegistration>{
       return;
     }
     
-    final cat = CatModel(name: name, age: age, color: color, breed: breed, weight: weight);
-
-    await dbHelper.insertCat(cat);
+    final cat = CatModel(name: name, 
+      id: widget.cat?.id,
+      age: age, 
+      color: color, 
+      breed: breed, 
+      weight: weight
+    );
+    
+    if(widget.cat == null){
+      await dbHelper.insertCat(cat);
+    }else{
+      await dbHelper.updateCat(cat);
+    }
 
     _clearAllFields();
     Navigator.pop(context, true);
@@ -63,7 +89,7 @@ class CatRegistrationState extends State<CatRegistration>{
   Widget build(BuildContext context){
     return Scaffold(
         appBar: AppBar(
-          title: Text('Registro de gato'),
+          title: Text(widget.cat == null ? 'Registro de gato': 'Atualização de gato'),
           centerTitle: true,
           backgroundColor: Colors.blue,
           leading: IconButton(onPressed: ()=>Navigator.pop(context), icon: Icon(Icons.arrow_back)),
@@ -116,7 +142,7 @@ class CatRegistrationState extends State<CatRegistration>{
                   ),
                 ),
                 SizedBox(height: 16.0,),
-                ElevatedButton(onPressed: ()=>_saveCats(), child: Text('Cadastrar')),
+                ElevatedButton(onPressed: ()=>_saveCats(), child: Text(widget.cat == null ? 'Cadastrar': 'Atualizar')),
               ],
             ),
         ),

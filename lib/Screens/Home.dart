@@ -36,6 +36,20 @@ class _HomePageState extends State<HomePage>{
     _loadCats();
   }
 
+  void _editCat(CatModel cat) async {
+
+    final result = await Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context)=> CatRegistration(cat: cat),
+      )
+    );
+
+    if(result == true){
+      _loadCats();
+    }
+  }
+
   @override
   Widget build(BuildContext context){
     return Scaffold(
@@ -59,6 +73,7 @@ class _HomePageState extends State<HomePage>{
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         Text('${cat.age} years'),
+                        IconButton(onPressed: ()=>_editCat(cat), icon: Icon(Icons.edit)),
                         IconButton(onPressed: ()=>_deleteCat(cat.id!), icon: Icon(Icons.delete)),
                       ],
                     ),           
