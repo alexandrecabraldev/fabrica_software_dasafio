@@ -55,5 +55,11 @@ class DatabaseHelper{
     return List.generate(maps.length, (i) => CatModel.fromMap(maps[i]));
   }
 
+  Future<int> deleteCat(int id) async{
+
+    final db = await database;
+    return await db!.delete('cats', where:'id = ?', whereArgs: [id]); 
+  }
+
 }
 

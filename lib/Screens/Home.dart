@@ -31,6 +31,11 @@ class _HomePageState extends State<HomePage>{
     });
   }
 
+  void _deleteCat(int id) async {
+    await dbHelper.deleteCat(id);
+    _loadCats();
+  }
+
   @override
   Widget build(BuildContext context){
     return Scaffold(
@@ -50,7 +55,13 @@ class _HomePageState extends State<HomePage>{
                   return ListTile(
                     title: Text(cat.name),
                     subtitle: Text(cat.breed),
-                    trailing: Text('${cat.age} years'),
+                    trailing: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text('${cat.age} years'),
+                        IconButton(onPressed: ()=>_deleteCat(cat.id!), icon: Icon(Icons.delete)),
+                      ],
+                    ),           
                   );
                 },
               ),
