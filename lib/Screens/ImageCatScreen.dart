@@ -45,7 +45,7 @@ class ImageCatScreenState extends State<ImageCatScreen>{
               Navigator.pop(context);
             },
           ),
-          title: Text('Cat Service'),
+          title: Text('Cat Images'),
           centerTitle: true,
           backgroundColor: Colors.blue,
         ),
