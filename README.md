@@ -41,5 +41,9 @@ O projeto está estruturado da seguinte forma:
     ```
 4. **Execute o aplicativo**:
     ```sh
+    Emule e abra um dispositivo mobile a sua escolha
+    ```
+5. **Execute o aplicativo**:
+    ```sh
     flutter run
     ```
